@@ -1,5 +1,3 @@
--- Select the name of the city and the number of reservations for that city.
-
 SELECT properties.city, count(reservations) as total_reservations
 FROM reservations
 JOIN properties ON property_id = properties.id
