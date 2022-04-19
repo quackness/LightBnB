@@ -156,19 +156,58 @@ exports.getAllReservations = getAllReservations;
 const getAllProperties = function (options, limit = 10) {
   // 1
   const queryParams = [];
+  let where = false;
+
   // 2
   let queryString = `
   SELECT properties.*, avg(property_reviews.rating) as average_rating
   FROM properties
   JOIN property_reviews ON properties.id = property_id
   `;
-
   // 3
   if (options.city) {
     queryParams.push(`%${options.city}%`);
     queryString += `WHERE city LIKE $${queryParams.length}`;
+    where = true;
+  } 
+  if (options.owner_id) {
+    queryParams.push(`${options.owner_id}`);
+    if (!where) {
+    queryString += `WHERE properties.owner_id = $${queryParams.length}`;
+    where = true;
+    } else {
+      queryString += ` AND properties.owner_id = $${queryParams.length}`;
+    }
+  }
+  if (options.minimum_price_per_night) {
+    let dollars = options.minimum_price_per_night * 100;
+    queryParams.push(dollars);
+    if (!where) {
+      queryString += ` WHERE properties.minimum_price_per_night >= $${queryParams.length}`;
+    } else {
+      queryString += ` AND properties.minimum_price_per_night >= $${queryParams.length}`;
+    }
   }
 
+  if (options.maximum_price_per_night) {
+    let dollars = options.maximum_price_per_night * 100;
+    queryParams.push(dollars);
+    if (!where) {
+      queryString += ` WHERE properties.maximum_price_per_night <= $${queryParams.length}`;
+    } else {
+      queryString += ` AND properties.maximum_price_per_night <= $${queryParams.length}`;
+    }
+  }
+
+  if (options.minimum_rating) {
+    queryParams.push(`${options.minimum_rating}`);
+    if (!where) {
+      queryString += ` WHERE properties.minimum_rating >= $${queryParams.length}`;
+    } else {
+      queryString += ` AND properties.minimum_rating >= $${queryParams.length}`;
+    }
+  }
+  
   // 4
   queryParams.push(limit);
   queryString += `
@@ -179,14 +218,17 @@ const getAllProperties = function (options, limit = 10) {
   console.log(queryString, queryParams);
   // 6
   return pool.query(queryString, queryParams).then((res) => {
-    console.log(res.rows)
+    console.log("this is a log", res.rows)
     return res.rows
   });
 };
 
+getAllProperties({
+  city: 'Vancouver',
+  owner_id: 747
+});
 
-getAllProperties({city: 'Vancouver'});
-
+//getAllProperties();
 
 exports.getAllProperties = getAllProperties;
 
