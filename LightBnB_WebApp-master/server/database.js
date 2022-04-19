@@ -184,6 +184,7 @@ const getAllProperties = function (options, limit = 10) {
     queryParams.push(dollars);
     if (!where) {
       queryString += ` WHERE properties.minimum_price_per_night >= $${queryParams.length}`;
+      where = true;
     } else {
       queryString += ` AND properties.minimum_price_per_night >= $${queryParams.length}`;
     }
@@ -194,6 +195,7 @@ const getAllProperties = function (options, limit = 10) {
     queryParams.push(dollars);
     if (!where) {
       queryString += ` WHERE properties.maximum_price_per_night <= $${queryParams.length}`;
+      where = true;
     } else {
       queryString += ` AND properties.maximum_price_per_night <= $${queryParams.length}`;
     }
@@ -202,12 +204,13 @@ const getAllProperties = function (options, limit = 10) {
   if (options.minimum_rating) {
     queryParams.push(`${options.minimum_rating}`);
     if (!where) {
-      queryString += ` WHERE properties.minimum_rating >= $${queryParams.length}`;
+      queryString += ` WHERE property_reviews.rating >= $${queryParams.length}`;
+      where = true;
     } else {
-      queryString += ` AND properties.minimum_rating >= $${queryParams.length}`;
+      queryString += ` AND property_reviews.rating >= $${queryParams.length}`;
     }
   }
-  
+
   // 4
   queryParams.push(limit);
   queryString += `
@@ -225,7 +228,8 @@ const getAllProperties = function (options, limit = 10) {
 
 getAllProperties({
   city: 'Vancouver',
-  owner_id: 747
+  owner_id: 747,
+  minimum_rating: 5
 });
 
 //getAllProperties();
