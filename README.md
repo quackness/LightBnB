@@ -1,6 +1,40 @@
 # LightBnB
 
-LightBnB is a project exploring ERD design and SQL queries as well as JavaScript functions using queries dynamically. 
+LightBnB is a project exploring ERD design and SQL queries as well as JavaScript API functions using SQL queries.
+
+It has an option to register as a user, sign in. Passwords are encrypted. Its main function is having access to a web based app allowing to search for and store properties for rent. You can add a property to the pool as an owner or view your existing reservations as a guest. 
+
+## Interface
+
+Sign up/Log In
+
+![Login](/pics/login.png "login")
+
+Create listing
+
+![Create listing](/pics/create.png "create listing")
+
+
+
+
+
+## Getting started
+
+* Fork this repository and clone it onto your local device.
+* Install dependencies using the npm install command.
+* Start the web server using the npm run local command from /ligthBnB_WebApp directory. 
+* The app will be served at http://localhost:3000/ in your browser.
+
+
+## Dependecies
+
+  *  bcrypt
+  *  body-parser
+  *  cookie-session
+  *  express
+  *  nodemon	
+  *  pg
+  *  nodemon
 
 
 ## Project Structure
@@ -45,23 +79,4 @@ LightBnB is a project exploring ERD design and SQL queries as well as JavaScript
   * `json` is a directory that contains a bunch of dummy data in `.json` files.
   * `database.js` is responsible for all queries to the database. It doesn't currently connect to any database, all it does is return data from `.json` files.
 
-  ## Getting started
-
-* Fork this repository and clone it onto your local device.
-* Install dependencies using the npm install command.
-* Start the web server using the npm run local command.
-* The app will be served at http://localhost:3000/ in your browser.
-* Click Sign up to create the account, search for properties.
-
-  ## Dependecies
-
-  *  bcrypt
-  *  body-parser
-  *  cookie-session
-  *  express
-  *  nodemon	
-  *  pg
-  *  nodemon
-
-
-
+  
